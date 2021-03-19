@@ -44,11 +44,39 @@ for DIRECTORY in ${SOURCE_DIR}/*; do
 
     if [[ -d ${DIRECTORY} ]]; then
 
-        mv ${DIRECTORY}/ ${TARGET_DIR}/;
+        cp -r ${DIRECTORY}/ ${TARGET_DIR}/;
 
     fi
 
 done
+
+if [[ $(find ${SOURCE_DIR} -type f | wc -l ) -eq 0 ]]; then
+    echo "tu byl Kononowicz"
+fi
+
+if [[ $(find ${SOURCE_DIR} -type f | wc -l ) -gt 0 ]]; then
+
+    echo "jeszcze cos zostalo"
+
+    if [[ $(find ${SOURCE_DIR} -type f | wc -l ) -ge 2 ]]; then
+
+        echo "zostaly co najmniej 2 pliki"
+
+        if [[ $(find ${SOURCE_DIR} -type f | wc -l) -gt 4 ]]; then
+            
+            echo "zostalo wiecej niz 4 pliki"
+        
+        fi
+
+        if [[ $(find ${SOURCE_DIR} -type f | wc -l) -le 4 ]]; then
+            
+            echo "zostalo nie wiecej niz 4 ale co najmniej 2 pliki"
+        
+        fi 
+
+    fi
+
+fi
 
 for FILE in ${TARGET_DIR}/*; do
 
