@@ -1,14 +1,14 @@
 #!/bin/bash
 
-if [[ ! -d ${1} || ! -d ${2} ]]; then
+if [[ $# -eq 0 ]]; then    
 
+    echo "Nie podano argumentow wejsciowych"
     exit 1
 
 fi
 
-if [[ $# -eq 0 ]]; then    
+if [[ ! -d ${1} || ! -d ${2} ]]; then
 
-    echo "Nie podano argumentow wejsciowych"
     exit 2
 
 fi
