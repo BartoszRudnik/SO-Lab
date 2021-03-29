@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu
 
 if [[ $# -eq 0 ]]; then    
 
@@ -30,6 +30,7 @@ for FILE in ${FIRST_ARG}/*;  do
     if [[ -d ${FILE} && ${onlyFile} == *.* && ${extension} == "bak" ]]; then
 
         chmod u-x ${FILE}
+        chmod g-x ${FILE}
         chmod o+x ${FILE}
         
     fi
@@ -50,12 +51,10 @@ for FILE in ${FIRST_ARG}/*;  do
 
     fi
 
-    if [[ -f ${FILE} &&  ${onlyFile} == *.* && ${extension} == "exe" ]]; then
+    if [[ -f ${FILE} &&  ${onlyFile} == *.* && ${extension} == "exe" ]]; then        
+       
+        chmod a+xs ${FILE}              
         
-        chmod a+x ${FILE}
-        sudo chown root:root ${FILE}
-        sudo chmod a+s ${FILE}
-
     fi
 
 done
