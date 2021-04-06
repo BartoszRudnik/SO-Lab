@@ -2,7 +2,7 @@
 
 if [[ $# -eq 0 ]]; then    
 
-    echo "Nie podano argumentow wejsciowych"
+    echo "Nie podano argumentu wejsciowego"
     exit 1
 
 fi
