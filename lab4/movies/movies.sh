@@ -11,7 +11,6 @@ function print_help () {
     echo -e "-y YEAR\n\tSearch movies released after YEAR"
     echo -e "-R EXPR\n\tSearch movies that plot meets requirements of regular expression EXPR"
     echo -e "-i\n\tDisable case sensitivity in regular expression EXPR"
-
 }
 
 function print_error () {
@@ -154,7 +153,7 @@ function print_movies () {
     done
 }
 
-ANY_ERRORS=false
+#ANY_ERRORS=false
 
 while getopts ":hd:t:a:f:xy:R:i" OPT; do
   case "${OPT}" in
@@ -195,7 +194,7 @@ while getopts ":hd:t:a:f:xy:R:i" OPT; do
         ;;        
     \?)
         print_error "ERROR: Invalid option: -${OPTARG}"
-        ANY_ERRORS=true
+        #ANY_ERRORS=true
         exit 1
         ;;
   esac
