@@ -1,74 +1,74 @@
-def prepare_game_board(game_board, n):
+"""Tic Tac Toe bigger board"""
 
-    for i in range(n**2):
-        game_board[i] = i + 1
+import sys
+
+def prepare_game_board(board, number):
+    """Prepares game board"""
+    for i in range(number**2):
+        board[i] = i + 1
 
 
-def choose_sign(player_sign, computer_sign):
-
+def choose_sign(player, computer):
+    """Allows user to choose 'X' or 'O' """
     choosen = ' '
 
-    while choosen != 'X' and choosen != 'O':
+    while choosen not in ('X', 'O'):
         choosen = str(input('Choose X or O: '))
 
         if choosen == 'X':
-            player_sign = 'X'
-            computer_sign = 'O'
-            return player_sign, computer_sign
+            player = 'X'
+            computer = 'O'
+            return player, computer
         if choosen == 'O':
-            player_sign = 'O'
-            computer_sign = 'X'
-            return player_sign, computer_sign
-        else:
-            print('try again')
-
-    return
+            player = 'O'
+            computer = 'X'
+            return player, computer
+        print('try again')
 
 
-def print_game_board(game_board, n):
-
+def print_game_board(board, number):
+    """Prints game board"""
     count = 0
 
-    for i in range(len(game_board)):
-        if count % n == 0 and count != 0:
+    for i in range(len(board)):
+        if count % number == 0 and count != 0:
             print('\n------------------------------------------------')
-            if(len(str(game_board[i])) == 1):
-                print(str(game_board[i]) + '  |', end='')
-            if(len(str(game_board[i])) == 2):
-                print(str(game_board[i]) + ' |', end='')
-            if(len(str(game_board[i])) == 3):
-                print(str(game_board[i]) + '|', end='')
+            if len(str(board[i])) == 1:
+                print(str(board[i]) + '  |', end='')
+            if len(str(board[i])) == 2:
+                print(str(board[i]) + ' |', end='')
+            if len(str(board[i])) == 3:
+                print(str(board[i]) + '|', end='')
         else:
-            if(len(str(game_board[i])) == 1):
-                print(str(game_board[i]) + '  |', end='')
-            if(len(str(game_board[i])) == 2):
-                print(str(game_board[i]) + ' |', end='')
-            if(len(str(game_board[i])) == 3):
-                print(str(game_board[i]) + '|', end='')
+            if len(str(board[i])) == 1:
+                print(str(board[i]) + '  |', end='')
+            if len(str(board[i])) == 2:
+                print(str(board[i]) + ' |', end='')
+            if len(str(board[i])) == 3:
+                print(str(board[i]) + '|', end='')
 
         count += 1
     print('\n')
 
 
-def check_if_position_free(game_board, board_position):
-    if game_board[board_position] == board_position + 1:
-        return True
-    else:
-        return False
+def check_if_position_free(board, board_position):
+    """Checks if choosen position is free"""
+    return bool(board[board_position] == board_position + 1)
 
 
-def check_draw(game_board):
-    for i in range(len(game_board)):
-        if game_board[i] == i + 1:
+def check_draw(board):
+    """Checks if game is draw"""
+    for i in range(len(board)):
+        if board[i] == i + 1:
             return False
     return True
 
 
-def check_win(game_board, player_sign, n, player_pick):
-
+def check_win(boa, sig, num, pic):
+    """Checks if game is won"""
     is_win = True
     for i in range(5):
-        if player_pick + i < 0 or player_pick + i >= len(game_board) or game_board[player_pick + i] != player_sign:
+        if pic + i < 0 or pic + i >= len(boa) or boa[pic + i] != sig:
             is_win = False
             break
     if is_win:
@@ -76,7 +76,7 @@ def check_win(game_board, player_sign, n, player_pick):
 
     is_win = True
     for i in range(5):
-        if player_pick - i < 0 or player_pick - i >= len(game_board) or game_board[player_pick - i] != player_sign:
+        if pic - i < 0 or pic - i >= len(boa) or boa[pic - i] != sig:
             is_win = False
             break
     if is_win:
@@ -84,7 +84,7 @@ def check_win(game_board, player_sign, n, player_pick):
 
     is_win = True
     for i in range(5):
-        if player_pick + (n * i) < 0 or player_pick + (n * i) >= len(game_board) or game_board[player_pick + (n * i)] != player_sign:
+        if pic + (num * i) < 0 or pic + (num * i) >= len(boa) or boa[pic + (num * i)] != sig:
             is_win = False
             break
     if is_win:
@@ -92,7 +92,7 @@ def check_win(game_board, player_sign, n, player_pick):
 
     is_win = True
     for i in range(5):
-        if player_pick - (n * i) < 0 or player_pick - (n * i) >= len(game_board) or game_board[player_pick - (n * i)] != player_sign:
+        if pic - (num * i) < 0 or pic - (num * i) >= len(boa) or boa[pic - (num * i)] != sig:
             is_win = False
             break
     if is_win:
@@ -100,7 +100,7 @@ def check_win(game_board, player_sign, n, player_pick):
 
     is_win = True
     for i in range(5):
-        if player_pick + n * i + i  < 0 or player_pick + n * i + i >= len(game_board) or game_board[player_pick + n * i + i] != player_sign:
+        if pic + num * i + i < 0 or pic + num * i + i >= len(boa) or boa[pic + num * i + i] != sig:
             is_win = False
             break
     if is_win:
@@ -108,7 +108,7 @@ def check_win(game_board, player_sign, n, player_pick):
 
     is_win = True
     for i in range(5):
-        if player_pick - n * i - i < 0 or player_pick - n * i - i >= len(game_board) or game_board[player_pick - n * i - i] != player_sign:
+        if pic - num * i - i < 0 or pic - num * i - i >= len(boa) or boa[pic - num * i - i] != sig:
             is_win = False
             break
     if is_win:
@@ -116,228 +116,230 @@ def check_win(game_board, player_sign, n, player_pick):
 
     is_win = True
     for i in range(5):
-        if player_pick - n * i + i < 0 or player_pick - n * i + i >= len(game_board) or game_board[player_pick - n * i + i] != player_sign:
+        if pic - num * i + i < 0 or pic - num * i + i >= len(boa) or boa[pic - num * i + i] != sig:
             is_win = False
             break
     if is_win:
         return True
 
-    if_win = True
+    is_win = True
     for i in range(5):
-        if player_pick + n * i - i < 0 or player_pick + n * i - i >= len(game_board) or game_board[player_pick + n * i - i] != player_sign:
+        if pic + num * i - i < 0 or pic + num * i - i >= len(boa) or boa[pic + num * i - i] != sig:
             is_win = False
             break
-        
+
     return is_win
 
 
-def make_move(char, position, game_board, player_sign, computer_sign, n):
-    if check_if_position_free(game_board, position - 1):
-        game_board[position - 1] = char
-        print_game_board(game_board, n)
-        if(check_draw(game_board)):
+def make_move(char, position, board, player, computer, num):
+    """Assign player sign to choosen position"""
+    if check_if_position_free(board, position - 1):
+        board[position - 1] = char
+        print_game_board(board, num)
+        if check_draw(board):
             print('Draw')
-            exit()
-        if(check_win(game_board, computer_sign, n, position - 1)):
+            sys.exit()
+        if check_win(board, computer, num, position - 1):
             print('Bot wins')
-            exit()
-        if(check_win(game_board, player_sign, n, position - 1)):
+            sys.exit()
+        if check_win(board, player, num, position - 1):
             print('Player wins')
-            exit()
+            sys.exit()
 
         return
 
+    if char == computer:
+        computer_turn(board, player,
+                      computer, num, position - 1)
     else:
-        if char == computer_sign:
-            computer_turn(game_board, player_sign, computer_sign, n, -1, position - 1)
-        else:
-            print('This position is already taken')
-            position = int(input('Please provide new position:... '))
-            make_move(char, position, game_board, player_sign, computer_sign, n)
-
-        return
+        print('This position is already taken')
+        position = int(input('Please provide new position:... '))
+        make_move(char, position, board,
+                  player, computer, num)
 
 
-def player_turn(game_board, player_sign, computer_sign, n):
+def player_turn(board, player, computer, num):
+    """Allows player to make move"""
     position = int(input('Enter next move: '))
-    make_move(player_sign, position, game_board, player_sign, computer_sign, n)
+    make_move(player, position, board, player, computer, num)
 
     return position - 1
 
 
-def computer_turn(game_board, player_sign, computer_sign, n, computer_position, player_position):
+def computer_turn(board, player, computer, num, player_position):
+    """Allows computer to make move"""
     best_move = -1
 
-    direction, player_points = computer_defend(
-        game_board, player_sign, n, player_position)
+    direction = computer_defend(
+        board, player, num, player_position)
 
     best_move = deffensive_move(
-        game_board, player_sign, computer_sign, n, player_position, direction)
+        board, player, computer, num, player_position, direction)
 
     print(best_move + 1)
 
-    make_move(computer_sign, best_move + 1, game_board,
-              player_sign, computer_sign, n)
+    make_move(computer, best_move + 1, board,
+              player, computer, num)
     return best_move
 
 
-def deffensive_move(game_board, player_sign, computer_sign, n, player_position, direction):
-
+def deffensive_move(board, pla, com, num, pos, direction):
+    """Computer algorithm to choose next move"""
     if direction == 1:
         index = 1
-        while player_position - index * n - index >= 0 and player_position - index * n - index < len(game_board):
-            if game_board[player_position - index * n - index] != player_sign and game_board[player_position - index * n - index] != computer_sign:                
-                return player_position - index * n - index
+        while pos - index * num - index >= 0 and pos - index * num - index < len(board):
+            if board[pos - index * num - index] != pla and board[pos - index * num - index] != com:
+                return pos - index * num - index
             index += 1
 
         index = 1
-        while player_position + index * n + index >= 0 and player_position + index * n + index < len(game_board):
-            if game_board[player_position + index * n + index] != player_sign and game_board[player_position + index * n + index] != computer_sign:               
-                return player_position + index * n + index
+        while pos + index * num + index >= 0 and pos + index * num + index < len(board):
+            if board[pos + index * num + index] != pla and board[pos + index * num + index] != com:
+                return pos + index * num + index
             index += 1
 
     if direction == 2:
         index = 1
-        while player_position - n * index >= 0 and player_position - n * index < len(game_board):
-            if game_board[player_position - n * index] != player_sign and game_board[player_position - n * index] != computer_sign:
-                print(player_position - n * index)
-                return player_position - n * index
+        while pos - num * index >= 0 and pos - num * index < len(board):
+            if board[pos - num * index] != pla and board[pos - num * index] != com:
+                return pos - num * index
             index += 1
 
         index = 1
-        while player_position + n * index >= 0 and player_position + n * index < len(game_board):
-            if game_board[player_position + n * index] != player_sign and game_board[player_position + n * index] != computer_sign:
-                print(player_position + n * index)
-                return player_position + n * index
+        while pos + num * index >= 0 and pos + num * index < len(board):
+            if board[pos + num * index] != pla and board[pos + num * index] != com:
+                return pos + num * index
             index += 1
 
     if direction == 3:
         index = 1
-        while player_position - n * index + index >= 0 and player_position - n * index + index < len(game_board):
-            if game_board[player_position - n * index + index] != player_sign and game_board[player_position - n * index + index] != computer_sign:
-                return player_position - n * index + index
+        while pos - num * index + index >= 0 and pos - num * index + index < len(board):
+            if board[pos - num * index + index] != pla and board[pos - num * index + index] != com:
+                return pos - num * index + index
             index += 1
 
         index = 1
-        while player_position + n * index - index >= 0 and player_position + n * index - index < len(game_board):
-            if game_board[player_position + n * index - index] != player_sign and game_board[player_position + n * index - index] != computer_sign:
-                return player_position + n * index - index
+        while pos + num * index - index >= 0 and pos + num * index - index < len(board):
+            if board[pos + num * index - index] != pla and board[pos + num * index - index] != com:
+                return pos + num * index - index
             index += 1
 
     if direction == 4:
         index = 1
-        while player_position + index >= 0 and player_position + index < len(game_board):
-            if game_board[player_position + index] != player_sign and game_board[player_position] != computer_sign:
-                return player_position + index
+        while pos + index >= 0 and pos + index < len(board):
+            if board[pos + index] != pla and board[pos] != com:
+                return pos + index
             index += 1
 
         index = 1
-        while player_position - index >= 0 and player_position - index < len(game_board):
-            if game_board[player_position - index] != player_sign and game_board[player_position] != computer_sign:
-                return player_position - index
+        while pos - index >= 0 and pos - index < len(board):
+            if board[pos - index] != pla and board[pos] != com:
+                return pos - index
             index += 1
 
     if direction == 5:
         index = 1
-        while player_position + index * n + index >= 0 and player_position + index * n + index < len(game_board):
-            if game_board[player_position + index * n + index] != player_sign and game_board[player_position + index * n + index] != computer_sign:
-                return player_position + index * n + index
+        while pos + index * num + index >= 0 and pos + index * num + index < len(board):
+            if board[pos + index * num + index] != pla and board[pos + index * num + index] != com:
+                return pos + index * num + index
             index += 1
 
         index = 1
-        while player_position - index * n - index >= 0 and player_position - index * n - index < len(game_board):
-            if game_board[player_position - index * n - index] != player_sign and game_board[player_position - index * n - index] != computer_sign:
-                return player_position - index * n - index
+        while pos - index * num - index >= 0 and pos - index * num - index < len(board):
+            if board[pos - index * num - index] != pla and board[pos - index * num - index] != com:
+                return pos - index * num - index
             index += 1
 
     if direction == 6:
         index = 1
-        while player_position + n * index >= 0 and player_position + n * index < len(game_board):
-            if game_board[player_position + n * index] != player_sign and game_board[player_position + n * index] != computer_sign:
-                return player_position + n * index
+        while pos + num * index >= 0 and pos + num * index < len(board):
+            if board[pos + num * index] != pla and board[pos + num * index] != com:
+                return pos + num * index
             index += 1
 
         index = 1
-        while player_position - n * index >= 0 and player_position - n * index < len(game_board):
-            if game_board[player_position - n * index] != player_sign and game_board[player_position - n * index] != computer_sign:
-                return player_position - n * index
+        while pos - num * index >= 0 and pos - num * index < len(board):
+            if board[pos - num * index] != pla and board[pos - num * index] != com:
+                return pos - num * index
             index += 1
 
     if direction == 7:
         index = 1
-        while player_position + n * index - index >= 0 and player_position + n * index - index < len(game_board):
-            if game_board[player_position + n * index - index] != player_sign and game_board[player_position + n * index - index] != computer_sign:
-                return player_position + n * index - index
+        while pos + num * index - index >= 0 and pos + num * index - index < len(board):
+            if board[pos + num * index - index] != pla and board[pos + num * index - index] != com:
+                return pos + num * index - index
             index += 1
 
         index = 1
-        while player_position - n * index + index >= 0 and player_position - n * index + index < len(game_board):
-            if game_board[player_position - n * index + index] != player_sign and game_board[player_position - n * index + index] != computer_sign:
-                return player_position - n * index + index
+        while pos - num * index + index >= 0 and pos - num * index + index < len(board):
+            if board[pos - num * index + index] != pla and board[pos - num * index + index] != com:
+                return pos - num * index + index
             index += 1
 
     if direction == 8:
         index = 1
-        while player_position - index >= 0 and player_position - index < len(game_board):
-            if game_board[player_position - index] != player_sign and game_board[player_position] != computer_sign:
-                return player_position - index
+        while pos - index >= 0 and pos - index < len(board):
+            if board[pos - index] != pla and board[pos] != com:
+                return pos - index
             index += 1
 
         index = 1
-        while player_position + index >= 0 and player_position + index < len(game_board):
-            if game_board[player_position + index] != player_sign and game_board[player_position] != computer_sign:
-                return player_position + index
+        while pos + index >= 0 and pos + index < len(board):
+            if board[pos + index] != pla and board[pos] != com:
+                return pos + index
             index += 1
 
+    return -1
 
-def computer_defend(game_board, player_sign, n, player_position):
 
+def computer_defend(board, player, num, player_position):
+    """Algorithm to check player moves"""
     count_5 = 0
     for i in range(1, 5):
-        if player_position - i * n - i >= 0 and player_position - i * n - i < len(game_board):
-            if game_board[player_position - i * n - 1] == player_sign:
+        if player_position - i * num - i >= 0 and player_position - i * num - i < len(board):
+            if board[player_position - i * num - 1] == player:
                 count_5 += 1
 
     count_6 = 0
     for i in range(1, 5):
-        if player_position - i * n >= 0 and player_position - i * n < len(game_board):
-            if game_board[player_position - i * n] == player_sign:
+        if player_position - i * num >= 0 and player_position - i * num < len(board):
+            if board[player_position - i * num] == player:
                 count_6 += 1
 
     count_7 = 0
     for i in range(1, 5):
-        if player_position - i * n + 1 >= 0 and player_position - i * n + 1 < len(game_board):
-            if game_board[player_position - i * n + 1] == player_sign:
+        if player_position - i * num + 1 >= 0 and player_position - i * num + 1 < len(board):
+            if board[player_position - i * num + 1] == player:
                 count_7 += 1
 
     count_8 = 0
     for i in range(1, 5):
-        if player_position + i >= 0 and player_position + i < len(game_board):
-            if game_board[player_position + i] == player_sign:
+        if player_position + i >= 0 and player_position + i < len(board):
+            if board[player_position + i] == player:
                 count_8 += 1
 
     count_1 = 0
     for i in range(1, 5):
-        if player_position + i * n + 1 >= 0 and player_position + i * n + 1 < len(game_board):
-            if game_board[player_position + i * n + 1] == player_sign:
+        if player_position + i * num + 1 >= 0 and player_position + i * num + 1 < len(board):
+            if board[player_position + i * num + 1] == player:
                 count_1 += 1
 
     count_2 = 0
     for i in range(1, 5):
-        if player_position + i * n >= 0 and player_position + i * n < len(game_board):
-            if game_board[player_position + i * n] == player_sign:
+        if player_position + i * num >= 0 and player_position + i * num < len(board):
+            if board[player_position + i * num] == player:
                 count_2 += 1
 
     count_3 = 0
     for i in range(1, 5):
-        if player_position + i * n - i >= 0 and player_position + i * n - i < len(game_board):
-            if game_board[player_position + i * n - i] == player_sign:
+        if player_position + i * num - i >= 0 and player_position + i * num - i < len(board):
+            if board[player_position + i * num - i] == player:
                 count_3 += 1
 
     count_4 = 0
     for i in range(1, 5):
-        if player_position - i >= 0 and player_position - i < len(game_board):
-            if game_board[player_position - i] == player_sign:
+        if player_position - i >= 0 and player_position - i < len(board):
+            if board[player_position - i] == player:
                 count_4 += 1
 
     scores = [count_1, count_2, count_3, count_4,
@@ -351,49 +353,52 @@ def computer_defend(game_board, player_sign, n, player_position):
             max_score = scores[i - 1]
             max_index = i
 
-    return max_index, max_score
+    return max_index
 
 
-def play_game(game_board, player_sign, computer_sign, n):
-    player_sign, computer_sign = choose_sign(player_sign, computer_sign)
+def play_game(board, player, computer, number):
+    """Start game"""
+    player, computer = choose_sign(player, computer)
     print("Computer goes first! Good luck.")
 
-    prepare_game_board(game_board, n)
-    print_game_board(game_board, n)
+    prepare_game_board(board, number)
+    print_game_board(board, number)
 
-    computer_position = randint(0, n - 1)
-    player_position = randint(0, n - 1)
+    player_position = randint(0, number - 1)
 
     while True:
-        computer_position = computer_turn(
-            game_board, player_sign, computer_sign, n, computer_position, player_position)
+        computer_turn(
+            board, player, computer, number, player_position)
         player_position = player_turn(
-            game_board, player_sign, computer_sign, n)
+            board, player, computer, number)
 
 
-def randint(a, b):
-    return a + randbelow(b - a + 1)
+def randint(number_a, number_b):
+    """Function to generate int number from range (a,b)"""
+    return number_a + randbelow(number_b - number_a + 1)
 
 
-def randbelow(n):
-    if n <= 0:
+def randbelow(number):
+    """Generate rand from range"""
+    if number <= 0:
         raise ValueError
-    k = n.bit_length()
-    numbytes = (k + 7) // 8
+    key = number.bit_length()
+    numbytes = (key + 7) // 8
     while True:
-        r = int.from_bytes(random_bytes(numbytes), 'big')
-        r >>= numbytes * 8 - k
-        if r < n:
-            return r
+        rando = int.from_bytes(random_bytes(numbytes), 'big')
+        rando >>= numbytes * 8 - key
+        if rando < number:
+            return rando
 
 
-def random_bytes(n):
+def random_bytes(number):
+    """Generate random bytes"""
     with open('/dev/urandom', 'rb') as file:
-        return file.read(n)
+        return file.read(number)
 
 
 game_board = [0 for x in range(12**2)]
-player_sign = 'O'
-computer_sign = 'X'
+PLAYER_SIGN = 'O'
+COMPUTER_SIGN = 'X'
 
-play_game(game_board, player_sign, computer_sign, 12)
+play_game(game_board, PLAYER_SIGN, COMPUTER_SIGN, 12)
