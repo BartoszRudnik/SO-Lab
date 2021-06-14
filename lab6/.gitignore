@@ -111,6 +111,8 @@ celerybeat.pid
 !.vscode/extensions.json
 *.code-workspace
 
+.data/*
+
 # Local History for Visual Studio Code
 .history/
 
