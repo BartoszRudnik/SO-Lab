@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Server for multithreaded (asynchronous) chat application."""
+
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 import mysql.connector
@@ -78,7 +78,6 @@ def send_message_to_db(message):
 
 
 def accept_incoming_connections():
-    """Sets up handling for incoming clients."""
     while True:
         client, client_address = SERVER.accept()
         print("%s:%s has connected." % client_address)
@@ -88,8 +87,7 @@ def accept_incoming_connections():
         Thread(target=handle_client, args=(client,)).start()
 
 
-def handle_client(client):  # Takes client socket as argument.
-    """Handles a single client connection."""
+def handle_client(client):
 
     client.send(
         bytes("Enter 1 to sign in, 2 to sign up", "utf8"))
@@ -154,10 +152,7 @@ def handle_client(client):  # Takes client socket as argument.
             break
 
 
-# prefix is for name identification.
 def broadcast(msg, string_msg, prefix=""):
-    """Broadcasts a message to all the clients."""
-
     encoding = 'utf-8'
 
     if string_msg != None:
