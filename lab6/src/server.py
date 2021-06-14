@@ -3,13 +3,13 @@
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 import mysql.connector
+from mysql.connector.errors import IntegrityError
 
 
 def create_tables():
 
-    drop_user_table_query = "DROP TABLE user"
-
-    drop_message_table_query = "DROP TABLE message"
+    drop_user_table_query = "DROP TABLE IF EXISTS user"
+    drop_message_table_query = "DROP TABLE IF EXISTS message"
 
     create_user_table_query = """
     CREATE TABLE user(
@@ -25,8 +25,8 @@ def create_tables():
     )
     """
 
-    # cursor.execute(drop_user_table_query)
-    # cursor.execute(drop_message_table_query)
+    cursor.execute(drop_user_table_query)
+    cursor.execute(drop_message_table_query)
     cursor.execute(create_user_table_query)
     cursor.execute(create_message_table_query)
     db.commit()
@@ -39,8 +39,12 @@ def sign_up(first_name, user_password):
     ( %s, %s)
     """
 
-    cursor.execute(insert_user, (first_name, user_password))
-    db.commit()
+    try:
+        cursor.execute(insert_user, (first_name, user_password))
+        db.commit()
+        return True
+    except IntegrityError:
+        return False
 
 
 def sign_in(first_name, user_password):
@@ -49,7 +53,7 @@ def sign_in(first_name, user_password):
     cursor.execute(check_user, (first_name, user_password))
     result = cursor.fetchall()
 
-    return result != None
+    return len(result) > 0
 
 
 def get_message_history(client):
@@ -89,9 +93,15 @@ def accept_incoming_connections():
 
 def handle_client(client):
 
-    client.send(
-        bytes("Enter 1 to sign in, 2 to sign up", "utf8"))
-    mode = client.recv(BUFSIZ).decode("utf8")
+    mode = -1
+
+    while True:
+        client.send(bytes("Enter 1 to sign in, 2 to sign up", "utf8"))
+        mode = client.recv(BUFSIZ).decode("utf8")
+
+        if mode == '1' or mode == '2':
+            break
+
     client.send(
         bytes("Enter username", "utf8"))
     name = client.recv(BUFSIZ).decode("utf8")
@@ -107,9 +117,15 @@ def handle_client(client):
             else:
                 client.send(
                     bytes("Wrong user or password, try again!", "utf8"))
-                client.send(
-                    bytes("Enter 1 to sing in, 2 to sign up", "utf8"))
-                mode = client.recv(BUFSIZ).decode("utf8")
+
+                while True:
+                    client.send(
+                        bytes("Enter 1 to sign in, 2 to sign up", "utf8"))
+                    mode = client.recv(BUFSIZ).decode("utf8")
+
+                    if mode == '1' or mode == '2':
+                        break
+
                 client.send(
                     bytes("Enter username", "utf8"))
                 name = client.recv(BUFSIZ).decode("utf8")
@@ -117,9 +133,29 @@ def handle_client(client):
                     bytes("Enter password", "utf8"))
                 password = client.recv(BUFSIZ).decode("utf8")
         elif mode == '2':
-            sign_up(name, password)
-            get_message_history(client)
-            break
+            result = sign_up(name, password)
+
+            if result:
+                get_message_history(client)
+                break
+            else:
+                client.send(
+                    bytes("User already exists, try again!", "utf8"))
+
+                while True:
+                    client.send(
+                        bytes("Enter 1 to sign in, 2 to sign up", "utf8"))
+                    mode = client.recv(BUFSIZ).decode("utf8")
+
+                    if mode == '1' or mode == '2':
+                        break
+
+                client.send(
+                    bytes("Enter username", "utf8"))
+                name = client.recv(BUFSIZ).decode("utf8")
+                client.send(
+                    bytes("Enter password", "utf8"))
+                password = client.recv(BUFSIZ).decode("utf8")
         else:
             client.send(
                 bytes("Wrong mode, choose 1 or 2!", "utf8"))
